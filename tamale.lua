@@ -1,5 +1,12 @@
 --
---]]
+-- @file   tamale.lua
+-- @author Scott Vokes <vokes.s@gmail.com>, António, P. P. Almeida <appa@perusio.net>.
+-- @date   Mon Oct 12 19:12:09 2015
+--
+-- @brief Pattern matching library for Lua using metatables.
+--
+--
+--
 
 -- Table related functions.
 local getmetatable = getmetatable
@@ -23,7 +30,7 @@ local format = string.format
 local M = {
   _VERSION = '1.3.0',
   _DEBUG = false,
-  _DESCRIPTION = 'Lua library for Unification',
+  _DESCRIPTION = 'Lua library for Pattern matching',
   _COPYRIGHT = [[
                   Copyright (c) 2010 Scott Vokes <vokes.s@gmail.com>,
                   2015 António P. P. Almeida <appa@perusio.net>
@@ -69,8 +76,15 @@ local function sentinel(desc)
   return setmetatable({}, { __tostring = function() return desc end })
 end
 
--- Sentinels for variables and nil.
-local VAR, NIL = sentinel('[var]'), sentinel('[nil]')
+-- Create a marker/sentinel for variables. It allows to be used not
+-- only as a key to a table, but also to quickly identify a logical
+-- variable.
+local VAR = sentinel('[var]')
+
+-- Create our own nil value so that all the predicates work without
+-- generating errors. NIL is used not only as a table key but also the
+-- case when the indexing function is empty.
+local NIL = sentinel('[nil]')
 
 --- Predicate that tests if a given table is a variable in the pattern
 --  matching/unification sense.
@@ -155,7 +169,7 @@ local function get_count(t)
     v = 0
     -- Loop over the table. Get it's length, i.e., the number of
     -- fields in the pattern or value (t).
-    for  _, _ in pairs(t) do v = v + 1 end
+    for  _  in pairs(t) do v = v + 1 end
     -- Set the cache value.
     counts[t] = v
   end
