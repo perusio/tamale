@@ -65,7 +65,7 @@ local M = {
 local function trace(...) print(format(...)) end
 
 --- Mark a given table as a variable or a nil value. We need this as a
---  way to distinguish variables and NIL patterns.
+--  way to distinguish variables and empty indexes.
 --
 -- @param string desc description of the sentinel type.
 --
@@ -117,7 +117,7 @@ function M.var(name)
   -- number of identifiers.
   local rest = (name == '...')
   -- Return a table marking it as variable through the __tostring
-  -- metamethod (VAR).
+  -- metamethod (VAR == '[var]').
   return setmetatable( { name = name, ignore = ignore, rest = rest }, VAR)
 end
 
@@ -239,7 +239,8 @@ local function unify(pat, val, cs, ids, row)
     return cs
     -- 2. Function patterns.
   elseif pat_type == 'function' then
-    -- If the pattern is a function is treated as predicate.
+    -- If the pattern is a function is treated as predicate. This
+    -- includes patterns 'P'.
     local fv = pat(val)
     -- If the predicate returs false. The matching fails.
     if not fv then return false end
@@ -614,20 +615,25 @@ local function check_index(spec, input, idx)
 end
 
 --- Return a matcher function for a given specification. When the
--- function is called on one or more values, its first argument is
--- tested in order against every rule that could possibly match it,
--- selecting the relevant result (if any) or returning the values
--- (false, "Match failed", val).
--- If the result is a function, it is called with a table containing
--- any captures and any subsequent arguments passed to the matcher
--- function (in captures.args).
---@param spec A list of rows, where each row is of the form
---  { rule, result, [ when = capture_predicate ] }.
---@usage spec.ids: An optional list of table values that should be
---  compared by identity, not structure. If any empty tables are
---  being used as a sentinel value (e.g. "MAGIC_ID = {}"), list
---  them here.
---@usage spec.debug=true: Turn on debugging traces for the matcher.
+--  function is called on one or more values, its first argument is
+--  tested in order against every rule that could possibly match it,
+--  selecting the relevant result (if any) or returning the values
+--  (false, 'Match failed', val).
+--  If the result is a function, it is called with a table containing
+--  any captures and any subsequent arguments passed to the matcher
+--  function (in captures.args).
+--
+-- @param spec A list of rows, where each row is of the form
+--   { rule, result, [ when = capture_predicate ] }.
+--
+-- @usage spec.ids An optional list of table values that should be
+--    compared by identity, not structure. If any empty tables are
+--    being used as a sentinel value (e.g. 'MAGIC_ID = {}'), list
+--    them here.
+-- @usage spec.debug = true Turn on debugging traces for the matcher.
+--
+-- @return mixed
+--   the result for the matching pattern or false if not.
 function M.matcher(spec)
   local debug = spec.debug or DEBUG
   -- Set with all row ids that are to be compared using '=='.
