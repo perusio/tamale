@@ -1,29 +1,41 @@
-package = "tamale"
-version = "1.2.2-1"
+-- -*- mode: lua; mode: flyspell-prog; ispell-local-dictionary: "american" -*-
+package = 'tamale'
+version = '1.2.2-1'
 source = {
-   url = "git://github.com/silentbicycle/tamale.git",
-   tag = "v1.2.2"
+  url = 'git://github.com/perusio/tamale.git',
+  tag = 'v1.2.2'
 }
 description = {
-   summary = "Erlang-style pattern matching for Lua",
-   detailed = [[
-Tamale adds structural pattern matching (as in Erlang, Prolog, etc.) to
-Lua. Pattern matching unpacks and matches on data structures like
-regular expressions do on strings.
+  summary = 'Erlang-style pattern matching for Lua',
+  detailed =
+    [[
+       Tamale adds structural pattern matching (as in Erlang, Prolog, etc.) to
+       Lua. Pattern matching unpacks and matches on data structures like
+       regular expressions match on strings.
 
-Rather than writing a series of nested ifs to test and extract from
-a structure, you can build a test function from a series of rules, and
-it will generate a dispatch function (with variable captures, etc.).
-]],
-   homepage = "http://github.com/silentbicycle/tamale",
-   license = "MIT/X11"
+       Instead of dwindling in "if-then-else hell" you write a table of
+       patterns to be matched against the input.
+
+       The pattern table defines rules that can have any type of
+       entries, strings, numbers, booleans, functions, Lua patterns as
+       well as logical variables, in which case unification is
+       performed.
+
+       The matching on inputs is performed via a dispatcher function.
+
+       Validation using pattern matching is concise and expressive
+       opposed to the usual forest of conditionals. Decision trees can
+       also be easily implemented with pattern matching.
+     ]],
+    homepage = 'http://github.com/perusio/tamale',
+    license = 'MIT/X11'
 }
 dependencies = {
-   "lua >= 5.1"   --earlier may work but is untested
+  'lua >= 5.1'
 }
 build = {
-   type = "builtin",
-   modules = {
-      tamale = "tamale.lua"
-   }
+  type = 'builtin',
+  modules = {
+    tamale = 'tamale.lua'
+  }
 }
