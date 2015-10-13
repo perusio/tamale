@@ -26,6 +26,13 @@ local strmatch = string.match
 local sub = string.sub
 local format = string.format
 
+-- Disable global environment.
+if _G.setfenv then
+  setfenv(1, {})
+else -- Lua 5.2.
+  _ENV = nil
+end
+
 -- The module table.
 local M = {
   _VERSION = '1.3.0',
