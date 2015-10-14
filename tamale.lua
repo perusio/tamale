@@ -724,11 +724,11 @@ function M.matcher(spec)
     -- If we're here that means the matching failed.
     if debug then trace(' -- Failed.') end
     -- Invoke the failure handler in this situation.
-    local fail = spec.fail or match_fail
+    local fail = spec.fail or M.match_fail
     -- Return the result.
     return fail(t)
     end -- anonymous function (closure)
 end -- matcher
 
 -- Return the module table.
-setmetatable(M, { __call = function(_, ...) return M.matcher(...) end })
+return setmetatable(M, { __call = function(_, ...) return M.matcher(...) end })
