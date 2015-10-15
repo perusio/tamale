@@ -21,6 +21,7 @@ local pairs = pairs
 local pcall = pcall
 local type = type
 local tostring = tostring
+local print = print
 -- String functions.
 local strmatch = string.match
 local sub = string.sub
@@ -246,17 +247,20 @@ local function unify(pat, val, cs, ids, row)
     return cs
     -- 2. Function patterns.
   elseif pat_type == 'function' then
-    -- If the pattern is a function is treated as predicate. This
-    -- includes patterns 'P'.
-    local fv = pat(val)
-    -- If the predicate returs false. The matching fails.
-    if not fv then return false end
+    -- If the pattern is a function , this includes patterns
+    -- 'P'. Since we can have mulitple values as return insert it in a
+    -- table.
+    local fv = { pat(val) }
+    local len_fv = #fv
+    -- If the function returns nil or false the matching failed.
+    if len_fv == 0 or not fv[1] then return false end
     -- Otherwise unify (capture). Insert it in the array component of
     -- the captures.
-    cs[#cs + 1] = fv
+    local len_cs = #cs
+    for i = 1, len_fv do cs[len_cs + i] = fv[i] end
     -- Return the captures.
     return cs
-    -- 3. 'Atomic' patterns. i.e., strings, numbers.
+    -- 3. 'Atomic' (literal) patterns. i.e., strings, numbers.
   else
     -- If we're here then the pattern is an 'atom' and we just do a
     -- comparison with the value. If is equal return the captures
@@ -473,7 +477,10 @@ local function index_spec(spec)
   -- Loop over all specification rows and compute the index for each
   -- row.
   local slen = #spec
+  local row
   for i = 1, slen do
+    -- Get the current row.
+    row = spec[i]
     -- A rule is of the form { rule, result, [ when function ] }.
     --  Get the pattern and the result.
     local pat, res = spec[i][1], spec[i][2]
@@ -584,7 +591,7 @@ local function index_spec(spec)
 end
 
 --- Search for a match using the indexes, if applicable. Always
---  make sure to return al the row ids since if the indexing fails
+--  make sure to return all the row ids since if the indexing fails
 --  i.e., we cannot find a match by index, we have to proceed for
 --  pure pattern matching row by row for *all* rows.
 --
@@ -683,7 +690,11 @@ function M.matcher(spec)
       -- matcher specification. Grab them.
       local args = { ... }
       -- Perform the unification for of the matching expression in the
-      -- current row with the corresponding result.
+      -- current row with the corresponding result. The third argument
+      -- is to make sure that any extra arguments will be in the
+      -- capture table args key. This allows for accumulators and
+      -- other type of functions to be used for computing the result
+      -- or/and as predicates.
       local u = unify(pat, t, { args = args }, ids, row)
       if debug then
         trace(' -- Trying rule %d...%s ', id, u and 'matched.' or 'failed.')
