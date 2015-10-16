@@ -362,14 +362,13 @@ matcher.
 Matching `{ 'a', 'c', 1 }` against:
 
 ```lua
-    tamale.matcher {
-       { { 'a', 'b', 1 }, 1 },
-       { { 'a', 'c', 1 }, 2 },
-       { { 'b', 'a', 1 }, 3 },
-       { { 'b', 'c', 1 }, 4 },
-       index = function(rule) return rule[1] .. rule[2] end,
-       debug = true
-    }
+local M = tamale.matcher
+  {{ { 'a', 'b', 1 }, 1 },
+   { { 'a', 'c', 1 }, 2 },
+   { { 'b', 'a', 1 }, 3 },
+   { { 'b', 'c', 1 }, 4 },
+   index = function(rule) return rule[1] .. rule[2] end,
+   debug = true })
 ```
 will print
 
@@ -382,5 +381,4 @@ will print
     -- Trying rule 2...matched
     2
 ```
-
 This can be use for tracing the matching process.
