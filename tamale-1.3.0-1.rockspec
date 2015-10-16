@@ -3,7 +3,7 @@ package = 'tamale'
 version = '1.2.2-1'
 source = {
   url = 'git://github.com/perusio/tamale.git',
-  tag = 'v1.2.2'
+  tag = 'v1.3.0'
 }
 description = {
   summary = 'Erlang-style pattern matching for Lua',
