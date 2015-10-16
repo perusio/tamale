@@ -35,6 +35,7 @@ else -- Lua 5.2.
 end
 
 -- The module table.
+-- @module: M
 local M = {
   _VERSION = '1.3.0',
   _DEBUG = false,
@@ -75,7 +76,7 @@ local function trace(...) print(format(...)) end
 --- Mark a given table as a variable or a nil value. We need this as a
 --  way to distinguish variables and empty indexes.
 --
--- @param string desc description of the sentinel type.
+-- @param desc string description of the sentinel type.
 --
 -- @return table
 --   table with a metatable such that the __tostring metamethod
@@ -97,7 +98,7 @@ local NIL = sentinel('[nil]')
 --- Predicate that tests if a given table is a variable in the pattern
 --  matching/unification sense.
 --
--- @param table t table being tested.
+-- @param t table table being tested.
 --
 -- @return boolean
 --   true if it is, false if not.
@@ -112,7 +113,7 @@ end
 -- Any variables beginning with _ are ignored. If a variable is named
 -- '...' then we capture all the array portion values.
 --
--- @param string name variable name.
+-- @param name string variable name.
 --
 -- @return table
 --   Variable definition.
@@ -134,7 +135,7 @@ end
 --  capture table. Like var, this would probably be locally aliased,
 --  and used like { P'num (%d+)', handler }.
 --
--- @param string str the Lua pattern to use in the test.
+-- @param str string  the Lua pattern to use in the test.
 --
 -- @return function
 --   Closure over the given pattern to do the matching.
@@ -148,7 +149,7 @@ end
 
 --- Match failure default handler.
 --
--- @param mixed val the unmatched value.
+-- @param val mixed the unmatched value.
 --
 -- @return nil, string, mixed
 --   nil, a notification, unmatched value.
@@ -166,7 +167,7 @@ local counts = setmetatable({}, { __mode = 'k' })
 --  the number of fields in the pattern and in the value are the same
 --  for *non partial* matches.
 --
--- @param table t pattern or value to be used as cache key.
+-- @param t table pattern or value to be used as cache key.
 --
 -- @return table
 --   Field counts cache.
@@ -192,11 +193,11 @@ end
 --  predicates - any non-false result(s) are considered a success and
 --  are captured.
 --
--- @param mixed pat pattern to be matched.
--- @param mixed val value being tested for matching.
--- @param table cs captures, i.e., table with unified expressions.
--- @param table ids patterns that should be matched 'strictly' (==).
--- @param table row current row of the matching matrix.
+-- @param pat mixed pattern to be matched.
+-- @param val mixed value being tested for matching.
+-- @param cs table captures, i.e., table with unified expressions.
+-- @param ids table patterns that should be matched 'strictly' (==).
+-- @param row table current row of the matching matrix.
 --
 -- @return table or boolean
 --   Unified expressions if matched, false if not.
@@ -273,9 +274,9 @@ end
 --  captures. The result is the value to return for the matched
 --  pattern.
 --
--- @param table res result, i.e., component of the pattern that got
+-- @param res table result, i.e., component of the pattern that got
 --              matched.
--- @param table u captured variables.
+-- @param u table captured variables.
 --
 -- @return table
 --   unified expression for the result (substitutions).
@@ -308,9 +309,9 @@ end
 
 --- Return or execute the result, substituting any vars present.
 --
--- @param mixed res the result expression for the matched pattern.
--- @param table u captures for variables.
--- @param boolean has_vars if there are variables
+-- @param res mixed the result expression for the matched pattern.
+-- @param u table captures for variables.
+-- @param has_vars boolean_vars if there are variables
 --
 -- @return mixed|table, table
 --   * the result of invoking the function if a function.
@@ -334,7 +335,7 @@ end
 --- Predicate to determine if a result, i.e., the returned value for
 --  the matched pattern has any variables.
 --
--- @param table res the result.
+-- @param res table the result.
 --
 -- @return boolean
 --   true if it has, false if not.
@@ -355,7 +356,7 @@ end
 --  there's no universal way of computing a result that can be
 --  compared.
 --
--- @param mixed pat_field a field in a pattern.
+-- @param pat_field mixed_field a field in a pattern.
 --
 -- @return boolean
 --   true if indexable, false if not.
@@ -363,11 +364,13 @@ local function indexable(pat_field)
   return not is_var(pat_field) and type(pat_field) ~= 'function'
 end
 
----
+--- Appends a value to an array. This is used for the indexing. Making
+--  sure that non-indexable rows are always visited for matching, in
+--  the eventuality of the index failing.
 --
 -- @param t table to append to.
--- @param mixed key index value .
--- @param number val row id to append.
+-- @param key mixed index value .
+-- @param val number row id to append.
 --
 -- @return nothing
 --   Side effects only.
@@ -386,11 +389,11 @@ end
 --  fails. That's why need to add the non-indexable row ids to
 --  the result.
 --
--- @param vars
--- @param lists
+-- @param vars table variables present in the rows.
+-- @param lists table non-indexable rows IDs to be prepended.
 --
--- @return
---
+-- @return nothing
+--   Side effects only.
 local function prepend_vars(vars, lists)
   for i = #vars, 1, -1 do
     local vid = vars[i]
@@ -427,7 +430,7 @@ end
 -- the matching and we need to make sure that the matching of the
 -- patterns row by row continues.
 --
--- @param table spec pattern specification:
+-- @param spec table pattern specification:
 --              array of { pattern,  result, [ when function ] }
 --
 -- @return table
@@ -595,9 +598,9 @@ end
 --  i.e., we cannot find a match by index, we have to proceed for
 --  pure pattern matching row by row for *all* rows.
 --
--- @param table spec table with the patterns to be matched.
--- @param mixed input value to match against.
--- @param table idx index specfication.
+-- @param spec table table with the patterns to be matched.
+-- @param input mixed value to match against.
+-- @param idx table index specfication.
 --
 -- @return table
 --   array with indexable row ids appended to the non indexable
@@ -637,7 +640,7 @@ end
 --  any captures and any subsequent arguments passed to the matcher
 --  function (in captures.args).
 --
--- @param spec A list of rows, where each row is of the form
+-- @param spec table A list of rows, where each row is of the form
 --   { rule, result, [ when = capture_predicate ] }.
 --
 -- @usage spec.ids An optional list of table values that should be
