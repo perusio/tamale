@@ -53,6 +53,50 @@ returning false if no matching can be found. It's possible to define
 your own failure handler. The default failure handler returns `nil,
 'Match failed'`.
 
+## Benchmarks
+
+There's a benchmark file `bench.lua` that allows you to get an idea of
+the performance. LuaJIT is 4x faster than Lua.
+
+Lua 5.1:
+
+    init: 10000 x: clock 489 ms (0.049 ms per)
+    match-first-literal: 10000 x: clock 20 ms (0.002 ms per)
+    match-structured-vars: 10000 x: clock 151 ms (0.015 ms per)
+    match-structured: 10000 x: clock 176 ms (0.018 ms per)
+    match-abcb: 10000 x: clock 97 ms (0.010 ms per)
+    match-abcb-fail: 10000 x: clock 117 ms (0.012 ms per)
+
+Lua 5.2:
+
+    init: 10000 x: clock 506 ms (0.051 ms per)
+    match-first-literal: 10000 x: clock 19 ms (0.002 ms per)
+    match-structured-vars: 10000 x: clock 154 ms (0.015 ms per)
+    match-structured: 10000 x: clock 169 ms (0.017 ms per)
+    match-abcb: 10000 x: clock 85 ms (0.009 ms per)
+    match-abcb-fail: 10000 x: clock 117 ms (0.012 ms per)
+
+LuaJIT:
+
+    init: 10000 x: clock 158 ms (0.016 ms per)
+    match-first-literal: 10000 x: clock 5 ms (0.001 ms per)
+    match-structured-vars: 10000 x: clock 49 ms (0.005 ms per)
+    match-structured: 10000 x: clock 51 ms (0.005 ms per)
+    match-abcb: 10000 x: clock 26 ms (0.003 ms per)
+    match-abcb-fail: 10000 x: clock 35 ms (0.004 ms per)
+
+## Code documentation
+
+The code is documented with
+[ldoc](http://stevedonovan.github.io/ldoc/). See the `tamale.html`
+file in the `files` directory.
+
+## Installation
+
+You can install it using luarocks.
+
+    luarocks install https://github.com/perusio/tamale/blob/master/tamale-1.3.1.rockspec
+
 ## Basic Usage
 
 ```lua
@@ -62,7 +106,7 @@ local V = tamale.var
 -- Creating the matching function.
 local M = tamale(
   {{{ 'foo', 1, {} }, 'one' },
-   {10, function() return 'two' end },
+   { 10, function() return 'two' end },
    {{ 'bar', 10, 100 }, 'three' },
    {{ 'baz', V'X' }, V'X' }, -- V'X' is a variable
    {{ 'add', V'X', V'Y' },  function(cs) return cs.X + cs.Y end }})
