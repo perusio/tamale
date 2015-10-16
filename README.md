@@ -373,12 +373,13 @@ local M = tamale.matcher
 will print
 
 ```lua
-    * rule 1: indexing on index(t)=ab
-    * rule 2: indexing on index(t)=ac
-    * rule 3: indexing on index(t)=ba
-    * rule 4: indexing on index(t)=bc
-    -- Checking rules: 2
-    -- Trying rule 2...matched
-    2
+* rule 1: indexing on index(t)=ab
+* rule 2: indexing on index(t)=ac
+* rule 3: indexing on index(t)=ba
+* rule 4: indexing on index(t)=bc
+-- Checking rules: 2
+-- Trying rule 2...matched
+2
+
 ```
 This can be use for tracing the matching process.
