@@ -186,11 +186,11 @@ describe('Using a list of IDs force the matching to be on values besides structu
               -- Force matching on values.
               ids = { a, b, c }
              })
-           it('Equal structure and indentiy',
+           it('Equal structure and identity',
               function ()
                 assert.are.equal('PASS', M({ a, b, c }))
               end)
-           it('Equal structure different indentiy (fails)',
+           it('Equal structure different identity (fails)',
               function ()
                 assert.is_not_true(M({ a, c, b }))
               end)
@@ -395,7 +395,8 @@ describe('Special variables that captures or ignore all values in an array',
               end)
          end)
 
--- Example from 'Learn You Some Erlang for Great Good'.
+-- Example from 'Learn You Some Erlang for Great Good':
+-- http://learnyousomeerlang.com/syntax-in-functions#in-case-of.
 describe('Matching in multiple ranges',
          function ()
            local function between(key, x, y)
@@ -434,7 +435,7 @@ describe('Indexing in action',
               {{ 1, 'b', 2 }, 2 },
               {{ 1, 'c', 3 }, 3 },
               {{ 1, 'd', 4 }, 4 },
-              index = function(r) return r[1] + 3*r[3] end })
+              index = function(r) return r[1] + 3 * r[3] end })
            -- Nested tables with no indexing.
            local M3 = tamale.matcher(
              {{ {{ 'T', V'X' }}, function(c) return 'ok' end },
