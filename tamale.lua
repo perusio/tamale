@@ -38,7 +38,7 @@ end
 -- @module: M
 local M = {
   _VERSION = '1.3.0',
-  _DEBUG = false,
+  DEBUG = false,
   _DESCRIPTION = 'Lua library for Pattern matching',
   _COPYRIGHT = [[
                   Copyright (c) 2010 Scott Vokes <vokes.s@gmail.com>,
@@ -652,7 +652,7 @@ end
 -- @return mixed
 --   the result for the matching pattern or false if not.
 function M.matcher(spec)
-  local debug = spec.debug or DEBUG
+  local debug = spec.debug or M.DEBUG
   -- Set with all row ids that are to be compared using '=='.
   local ids = {}
   -- Create the set with the row ids where the comparison is to be
