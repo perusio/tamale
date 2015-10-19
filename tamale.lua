@@ -1,5 +1,5 @@
 --
--- @file   tamale.lua
+-- @module tamale.lua
 -- @author Scott Vokes <vokes.s@gmail.com>, António, P. P. Almeida <appa@perusio.net>.
 -- @date   Mon Oct 12 19:12:09 2015
 --
@@ -34,8 +34,7 @@ else -- Lua 5.2.
   _ENV = nil
 end
 
--- The module table.
--- @module: M
+-- @table M module table.
 local M = {
   _VERSION = '1.3.0',
   DEBUG = false,
@@ -69,6 +68,8 @@ local M = {
 --- Debugging helper function. Prints the arguments using
 --  string.format.
 --
+-- @local
+--
 -- @return nothing
 --   Side effects only.
 local function trace(...) print(format(...)) end
@@ -97,6 +98,8 @@ local NIL = sentinel('[nil]')
 
 --- Predicate that tests if a given table is a variable in the pattern
 --  matching/unification sense.
+--
+-- @local
 --
 -- @param t table table being tested.
 --
@@ -167,6 +170,8 @@ local counts = setmetatable({}, { __mode = 'k' })
 --  the number of fields in the pattern and in the value are the same
 --  for *non partial* matches.
 --
+-- @local
+--
 -- @param t table pattern or value to be used as cache key.
 --
 -- @return table
@@ -192,6 +197,8 @@ end
 --  recursively unifying table fields. Functions are treated as
 --  predicates - any non-false result(s) are considered a success and
 --  are captured.
+--
+-- @local
 --
 -- @param pat mixed pattern to be matched.
 -- @param val mixed value being tested for matching.
@@ -274,6 +281,8 @@ end
 --  captures. The result is the value to return for the matched
 --  pattern.
 --
+-- @local
+--
 -- @param res table result, i.e., component of the pattern that got
 --              matched.
 -- @param u table captured variables.
@@ -309,6 +318,8 @@ end
 
 --- Return or execute the result, substituting any vars present.
 --
+-- @local
+--
 -- @param res mixed the result expression for the matched pattern.
 -- @param u table captures for variables.
 -- @param has_vars boolean_vars if there are variables
@@ -335,6 +346,8 @@ end
 --- Predicate to determine if a result, i.e., the returned value for
 --  the matched pattern has any variables.
 --
+-- @local
+--
 -- @param res table the result.
 --
 -- @return boolean
@@ -356,6 +369,8 @@ end
 --  there's no universal way of computing a result that can be
 --  compared.
 --
+-- @local
+--
 -- @param pat_field mixed_field a field in a pattern.
 --
 -- @return boolean
@@ -367,6 +382,8 @@ end
 --- Appends a value to an array. This is used for the indexing. Making
 --  sure that non-indexable rows are always visited for matching, in
 --  the eventuality of the index failing.
+--
+-- @local
 --
 -- @param t table to append to.
 -- @param key mixed index value .
@@ -388,6 +405,8 @@ end
 --  makes the matching process proceed event when the indexing
 --  fails. That's why need to add the non-indexable row ids to
 --  the result.
+--
+-- @local
 --
 -- @param vars table variables present in the rows.
 -- @param lists table non-indexable rows IDs to be prepended.
@@ -429,6 +448,8 @@ end
 -- the index searching mechanism might fail or not be relied upon for
 -- the matching and we need to make sure that the matching of the
 -- patterns row by row continues.
+--
+-- @local
 --
 -- @param spec table pattern specification:
 --              array of { pattern,  result, [ when function ] }
@@ -597,6 +618,8 @@ end
 --  make sure to return all the row ids since if the indexing fails
 --  i.e., we cannot find a match by index, we have to proceed for
 --  pure pattern matching row by row for *all* rows.
+--
+-- @local
 --
 -- @param spec table table with the patterns to be matched.
 -- @param input mixed value to match against.
