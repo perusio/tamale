@@ -1,0 +1,19 @@
+Source: lua-tamale
+Maintainer: António P. P. Almeida <appa@perusio.net> 
+Uploaders: António P. P. Almeida <appa@perusio.net>
+Section: interpreters
+Priority: optional
+Build-Depends: debhelper (>= 9),
+               dh-lua
+Standards-Version: 3.9.6
+Vcs-Browser: https://github.com/perusio/tamale
+Vcs-Git: git://git@github.com:perusio/tamale.git
+Homepage: https://github.com/perusio/tamale
+
+Package: lua-tamale
+Architecture: all
+Depends: ${shlibs:Depends},
+         ${misc:Depends}
+Description: Erlang like pattern matching in Lua
+ Particularly useful for validation or any other 
+ type of complex logic: URL routing, testing, etc.
