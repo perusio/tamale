@@ -93,9 +93,11 @@ file in the `files` directory.
 
 ## Installation
 
-You can install it using luarocks.
+  1. You can install it using luarocks.
+     
+        luarocks install https://github.com/perusio/tamale/blob/master/tamale-1.3.2-1.rockspec
 
-    luarocks install https://github.com/perusio/tamale/blob/master/tamale-1.3.1.rockspec
+  2. Debian [package](http://debian.perusio.net).
 
 ## Basic Usage
 
