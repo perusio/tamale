@@ -1,3 +1,6 @@
+v1.3.2
+   * Improvemenys in Ldoc documentation.
+   * Debianization.
 v1.3.1
    * New ldoc documentation generated. Fixes in benchmark. Added
      benchmark to README.
