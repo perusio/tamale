@@ -1,9 +1,9 @@
 -- -*- mode: lua; mode: flyspell-prog; ispell-local-dictionary: "american" -*-
 package = 'tamale'
-version = '1.3.2-1'
+version = '1.3.3-1'
 source = {
   url = 'git://github.com/perusio/tamale.git',
-  tag = 'v1.3.2'
+  tag = 'v1.3.3'
 }
 description = {
   summary = 'Erlang-style pattern matching for Lua',
