@@ -1,4 +1,4 @@
-lua-tamale (1.3.2-perusio.1.1) unstable; urgency=medium
+lua-tamale (1.3.3-perusio.1.0) unstable; urgency=medium
 
   * New package layout. Fixed build process. Documentation.
 
