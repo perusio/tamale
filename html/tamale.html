@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <head>
+      <title>Reference</title>
+      <link rel="stylesheet" href="ldoc.css" type="text/css" />
+    </head>
+    <body>
+
+      <div id="container">
+
+        <div id="product">
+          <div id="product_logo"></div>
+          <div id="product_name"><big><b></b></big></div>
+          <div id="product_description"></div>
+        </div> <!-- id="product" -->
+
+
+        <div id="main">
+
+
+          <!-- Menu -->
+
+          <div id="navigation">
+            <br/>
+              <h1>ldoc</h1>
+
+
+              <h2>Contents</h2>
+              <ul>
+                <li><a href="#Functions">Functions</a></li>
+              </ul>
+
+
+              <h2>Modules</h2>
+              <ul class="$(kind=='Topics' and '' or 'nowrap'">
+                <li><strong>tamale</strong></li>
+              </ul>
+
+          </div>
+
+          <div id="content">
+
+            <h1>Module <code>tamale</code></h1>
+            <p>Debugging helper function.</p>
+            <p> Prints the arguments using
+              string.format.
+            </p>
+
+
+            <h2><a href="#Functions">Functions</a></h2>
+            <table class="function_list">
+              <tr>
+                <td class="name" nowrap><a href="#var">var (name)</a></td>
+                <td class="summary">Marks a string in a match pattern as a variable key.</td>
+              </tr>
+              <tr>
+                <td class="name" nowrap><a href="#P">P (str)</a></td>
+                <td class="summary">Returns a function that tests a string with string:match, rather
+                  than ==.</td>
+              </tr>
+              <tr>
+                <td class="name" nowrap><a href="#match_fail">match_fail (val)</a></td>
+                <td class="summary">Match failure default handler.</td>
+              </tr>
+              <tr>
+                <td class="name" nowrap><a href="#matcher">matcher (spec)</a></td>
+                <td class="summary">Return a matcher function for a given specification.</td>
+              </tr>
+            </table>
+
+            <br/>
+              <br/>
+
+
+                <h2><a name="Functions"></a>Functions</h2>
+                <dl class="function">
+                  <dt>
+                    <a name = "var"></a>
+                    <strong>var (name)</strong>
+                  </dt>
+                  <dd>
+                    Marks a string in a match pattern as a variable key.
+                    (You probably want to alias this locally to something short.)
+                    Any variables beginning with _ are ignored. If a variable is named
+                    '...' then we capture all the array portion values.
+
+
+
+                    <h3>Parameters:</h3>
+                    <ul>
+                      <li><span class="parameter">name</span>
+                        string variable name.
+                      </li>
+                    </ul>
+
+                    <h3>Returns:</h3>
+                    <ol>
+
+                      table
+                      Variable definition.
+                    </ol>
+
+
+
+
+                  </dd>
+                  <dt>
+                    <a name = "P"></a>
+                    <strong>P (str)</strong>
+                  </dt>
+                  <dd>
+                    Returns a function that tests a string with string:match, rather
+                    than ==.  Any captures from the string match are appended to the
+                    capture table. Like var, this would probably be locally aliased,
+                    and used like { P'num (%d+)', handler }.
+
+
+
+                    <h3>Parameters:</h3>
+                    <ul>
+                      <li><span class="parameter">str</span>
+                        string  the Lua pattern to use in the test.
+                      </li>
+                    </ul>
+
+                    <h3>Returns:</h3>
+                    <ol>
+
+                      function
+                      Closure over the given pattern to do the matching.
+                    </ol>
+
+
+
+
+                  </dd>
+                  <dt>
+                    <a name = "match_fail"></a>
+                    <strong>match_fail (val)</strong>
+                  </dt>
+                  <dd>
+                    Match failure default handler.
+
+
+                    <h3>Parameters:</h3>
+                    <ul>
+                      <li><span class="parameter">val</span>
+                        mixed the unmatched value.
+                      </li>
+                    </ul>
+
+                    <h3>Returns:</h3>
+                    <ol>
+
+                      nil, string, mixed
+                      nil, a notification, unmatched value.
+                    </ol>
+
+
+
+
+                  </dd>
+                  <dt>
+                    <a name = "matcher"></a>
+                    <strong>matcher (spec)</strong>
+                  </dt>
+                  <dd>
+                    Return a matcher function for a given specification.  When the
+                    function is called on one or more values, its first argument is
+                    tested in order against every rule that could possibly match it,
+                    selecting the relevant result (if any) or returning the values
+                    (false, 'Match failed', val).
+                    If the result is a function, it is called with a table containing
+                    any captures and any subsequent arguments passed to the matcher
+                    function (in captures.args).
+
+
+
+                    <h3>Parameters:</h3>
+                    <ul>
+                      <li><span class="parameter">spec</span>
+                        table A list of rows, where each row is of the form
+                        { rule, result, [ when = capture_predicate ] }.
+
+                      </li>
+                    </ul>
+
+                    <h3>Returns:</h3>
+                    <ol>
+
+                      mixed
+                      the result for the matching pattern or false if not.
+                    </ol>
+
+
+
+                    <h3>Usage:</h3>
+                    <ul>
+                      <li><pre class="example"> spec.ids An optional list of <span class="global">table</span> values that should be
+                          compared by identity, <span class="keyword">not</span> structure. If any empty tables are
+                          being used as a sentinel value (e.g. <span class="string">'MAGIC_ID = {}'</span>), list
+                          them here.</pre></li>
+                      <li><pre class="example">spec.<span class="global">debug</span> = <span class="keyword">true</span> Turn on debugging traces <span class="keyword">for</span> the matcher.</pre></li>
+                    </ul>
+
+                  </dd>
+                </dl>
+
+
+          </div> <!-- id="content" -->
+        </div> <!-- id="main" -->
+        <div id="about">
+          <i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.4.2</a></i>
+        </div> <!-- id="about" -->
+      </div> <!-- id="container" -->
+    </body>
+</html>
