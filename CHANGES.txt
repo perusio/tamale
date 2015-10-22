@@ -1,3 +1,6 @@
+v1.3.3
+  * New Debian package layout.
+  * Fix package build.
 v1.3.2
    * Improvemenys in Ldoc documentation.
    * Debianization.
