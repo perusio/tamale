@@ -3,3 +3,6 @@
 %:
 	dh $@ --buildsystem=lua --with lua
 
+override_dh_auto_clean:
+	dh_auto_clean
+	rm -fr $(wildcard 5.?-lua-tamale)
