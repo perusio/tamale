@@ -1,10 +1,6 @@
---
--- @file   tamale.spec.lua
+--- Tests for tamale using busted.
+-- @script tamale.spec.lua
 -- @author António P. P. Almeida <appa@perusio.net>
--- @date   Wed Oct 14 01:12:02 2015
---
--- @brief  Tests for tamale using busted.
---
 --
 --
 
@@ -16,9 +12,22 @@ local say = require 'say'
 -- Useful definitions.
 local V, P = tamale.var, tamale.P
 local ipairs = ipairs
+local pairs = pairs
 local gmatch = string.gmatch
 local tonumber = tonumber
 local tostring = tostring
+local type = type
+-- For busted.
+local describe = describe
+local it = it
+
+-- Avoid polluting the global environment.
+-- If we are in Lua 5.1 this function exists.
+if _G.setfenv then
+  setfenv(1, {})
+else -- Lua 5.2.
+  _ENV = nil
+end
 
 -- Set the test language.
 say:set_namespace('en')
