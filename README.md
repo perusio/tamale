@@ -120,6 +120,7 @@ local M = tamale(
  print(M({ 'add', 2, 3 })     --> 5
  print(M({ 'sub', 2, 3 })     --> nil, 'Match failed'
 ```
+
 Note that `tamale` is an alias for `tamale.matcher` above.
 
 The result can be either a literal value (number, string, etc.), a
@@ -166,6 +167,7 @@ balance = tamale({
   { V'body', V'body' }, -- default case, keep the same
 })
 ```
+
 Given a non red-black tree the matcher above can balance the tree so
 that it becomes balanced. The code is very simple and easy to
 understand if compared with imperative code.
@@ -254,7 +256,9 @@ function square_even(cs)
   return res
 end
 
-``` The results will appended to the capture table if any variables,
+``` 
+
+The results will appended to the capture table if any variables,
 patterns are present in the rule or extra fields are given as input.
 
 ### Partial patterns - `partial = true`
