@@ -7,7 +7,7 @@ Tamale is a pattern matching library for Lua. Originaly developed by
 updated in a long time, and I've forked it to maintain it more
 actively, since it's a really nice piece of software that begs more
 usage in your Lua projects. My initial impulse was to use it in a
-microservice built around nginx with emebedded Lua or
+microservice built around nginx with embedded Lua or
 [Openresty](http://openresty.org) for doing validation. I don't like
 the solutions out there for that, they mostly use _method chaining_ to
 the hilt, where the methods are nothing more than if-then-else
